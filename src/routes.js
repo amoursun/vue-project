@@ -47,12 +47,11 @@
 //     }
 // ]
 
-import App from './App.vue'
-
+import Init from './Init.vue'
 const files = require.context('./', true, /^\.\/modules\/((?!\/)[\s\S])+\/route\.js$/);
 export default [{
     path: '/',
-    component: App,
+    component: Init,
     // redirect: 'home', // 默认指向路由
     redirect: to => {
         if (to.path === '/') {
@@ -63,3 +62,18 @@ export default [{
         return r.keys().map(key => r(key).default);
     })(files)
 }];
+
+// import initRoute from './utils/InitRoute'
+// const files = require.context('./', true, /^\.\/modules\/((?!\/)[\s\S])+\/route\.js$/);
+//
+// const routes = initRoute.concat((r => {
+//     return r.keys().map(key => {
+//         return {
+//             ...r(key).default,
+//             path: `/${r(key).default.path}`
+//         }
+//     });
+// })(files));
+//
+// export default routes;
+

@@ -52,10 +52,9 @@ const artist = {
     ]
 };
 
-const obj = {
+module.exports = {
     songList: songList,
     bangList: bangList,
     artist: artist
 };
 
-module.exports = obj;

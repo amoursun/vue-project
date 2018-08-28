@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import App from './App.vue';
 import VueRouter from 'vue-router';
-import routes from './routes'; // Array
 import VueResource from 'vue-resource';
+import routes from './routes'; // Array
 
 Vue.use(VueResource); //http请求注册
 Vue.use(VueRouter); //路由注册
@@ -20,13 +20,11 @@ const router = new VueRouter({
 let render = new Vue({
     router,
     el: '#app',
-    render: h => {
-        return h(App)
-    }
+    render: h => h(App)
 });
 
-render;
+// render;
 
-// if (module.hot) {
-//     module.hot.accept(App, () => render);
-// }
+if (module.hot) {
+    module.hot.accept(App, () => render);
+}
