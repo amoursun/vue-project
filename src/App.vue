@@ -1,22 +1,20 @@
 <template>
-    <div>
+    <div id="#app">
         <app-header logo="logo" ></app-header>
         <app-nav></app-nav>
-        <transition name="fade" mode="out-in">
+        <!--<transition name="fade" mode="out-in">-->
             <router-view class="view"></router-view>
-        </transition>
+        <!--</transition>-->
     </div>
 </template>
 
 <script>
     import Header from './common/Header.vue';
     import Nav from './common/Nav.vue';
-    import Home from './modules/home/Home.vue';
     export default {
         components: {
             "app-header": Header,
-            "app-nav": Nav,
-            "app-home": Home
+            "app-nav": Nav
         }
     };
 </script>

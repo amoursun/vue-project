@@ -49,16 +49,16 @@ if (isPro) {
     )
 }
 
-module.exports = {
+var config = {
     devtool: !isPro && 'cheap-eval-source-map',
     //页面入口文件配置
-    entry: [
-        "babel-polyfill",
-        path.resolve(__dirname, "./src/main")
-    ],
-    // entry: {
-    //     app: ['../src/main']
-    // },
+    // entry: [
+    //     "babel-polyfill",
+    //     path.resolve(__dirname, 'src/main')
+    // ],
+    entry: {
+        app: ['babel-polyfill', './src/main.js']
+    },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
@@ -103,11 +103,16 @@ module.exports = {
             })
         }]
     },
+    watchOptions: {
+        ignored: /node_modules/,
+        aggregateTimeout: 300,//防止重复保存频繁重新编译,300ms内重复保存不打包
+        poll: 1000  //每秒询问的文件变更的次数
+    },
     devServer: {
         contentBase: resolve('/'),
         historyApiFallback: true,
         compress: true,
-        port: 3055,
+        port: 6699,
         hot: true,
         inline: true,
         stats: {
@@ -124,3 +129,5 @@ module.exports = {
         },
     }
 };
+
+module.exports = config;

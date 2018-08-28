@@ -50,10 +50,16 @@
 import App from './App.vue'
 
 const files = require.context('./', true, /^\.\/modules\/((?!\/)[\s\S])+\/route\.js$/);
-export default {
+export default [{
     path: '/',
     component: App,
-    childRoutes: (r => {
-        return r.keys().map(key => r(key));
+    // redirect: 'home', // 默认指向路由
+    redirect: to => {
+        if (to.path === '/') {
+            return '/home'
+        }
+    },
+    children: (r => {
+        return r.keys().map(key => r(key).default);
     })(files)
-};
+}];

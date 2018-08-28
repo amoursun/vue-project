@@ -1,6 +1,4 @@
-/**
- * Created by yongyuehuang on 2017/4/24.
- */
+
 import { bang1, bang2, bang3, bang4, bang5, bang6, bang7, bang8, bang9, bang10 } from 'static/outImg'
 
 // 新歌列表
@@ -52,10 +50,12 @@ const artist = {
         {pathname: '', title: '欧美女歌手'},
         {pathname: '', title: '欧美组合'}
     ]
-}
+};
 
-module.exports = {
-    songList,
-    bangList,
-    artist
-}
+const obj = {
+    songList: songList,
+    bangList: bangList,
+    artist: artist
+};
+
+module.exports = obj;
