@@ -47,8 +47,9 @@
 //     }
 // ]
 
-import Init from './Init.vue'
+import Init from './common/Init.vue'
 const files = require.context('./', true, /^\.\/modules\/((?!\/)[\s\S])+\/route\.js$/);
+
 export default [{
     path: '/',
     component: Init,
