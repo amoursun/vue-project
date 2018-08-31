@@ -13,17 +13,19 @@
     export default {
         props: ['listImg'],
         mounted() {
-            console.log('mounted', this)
-            var swiper = new Swiper('.swiper-container', {
-                pagination: '.swiper-pagination',
-                paginationClickable: true,
-                loop: true,
-                speed: 600,
-                autoplay: 4000,
-                onTouchEnd: function() {
-                    swiper.startAutoplay()
-                }
-            });
+            this.$nextTick(function () {
+                console.log('mounted', this)
+                var swiper = new Swiper('.swiper-container', {
+                    pagination: '.swiper-pagination',
+                    paginationClickable: true,
+                    loop: true,
+                    speed: 600,
+                    autoplay: 4000,
+                    onTouchEnd: function() {
+                        swiper.startAutoplay()
+                    }
+                });
+            })
         }
     }
 </script>

@@ -1,5 +1,16 @@
-
-import { bang1, bang2, bang3, bang4, bang5, bang6, bang7, bang8, bang9, bang10 } from 'static/outImg'
+// import { bang1, bang2, bang3, bang4, bang5, bang6, bang7, bang8, bang9, bang10 } from 'static/outImg'
+const {
+    bang1,
+    bang2,
+    bang3,
+    bang4,
+    bang5,
+    bang6,
+    bang7,
+    bang8,
+    bang9,
+    bang10
+} = require('static/outImg');
 
 // 新歌列表
 const songList = [
@@ -18,37 +29,37 @@ const songList = [
 
 // 排行榜
 const bangList = [
-    {url: bang1, title: '酷狗飙升榜', pathname: ''},
-    {url: bang2, title: '酷狗TOP500', pathname: ''},
-    {url: bang3, title: '网络红歌榜', pathname: ''},
-    {url: bang4, title: 'DJ热歌榜', pathname: ''},
-    {url: bang5, title: '华语新歌榜', pathname: ''},
-    {url: bang6, title: '欧美新歌榜', pathname: ''},
-    {url: bang7, title: '韩国新歌榜', pathname: ''},
-    {url: bang8, title: '日本新歌榜', pathname: ''},
-    {url: bang9, title: '粤语新歌榜', pathname: ''},
-    {url: bang10, title: '原创音乐榜', pathname: ''}
+    {url: bang1, title: '酷狗飙升榜', pathname: 'bang1'},
+    {url: bang2, title: '酷狗TOP500', pathname: 'bang2'},
+    {url: bang3, title: '网络红歌榜', pathname: 'bang3'},
+    {url: bang4, title: 'DJ热歌榜', pathname: 'bang4'},
+    {url: bang5, title: '华语新歌榜', pathname: 'bang5'},
+    {url: bang6, title: '欧美新歌榜', pathname: 'bang6'},
+    {url: bang7, title: '韩国新歌榜', pathname: 'bang7'},
+    {url: bang8, title: '日本新歌榜', pathname: 'bang8'},
+    {url: bang9, title: '粤语新歌榜', pathname: 'bang9'},
+    {url: bang10, title: '原创音乐榜', pathname: 'bang10'}
 ]
 
 // 歌手
 const artist = {
-    'listOne': [
-        {pathname: '', title: '热门歌手'}
+    listOne: [
+        {pathname: 'hot', title: '热门歌手'}
     ],
-    'listTwo': [
-        {pathname: '', title: '华语男歌手'},
-        {pathname: '', title: '华语女歌手'},
-        {pathname: '', title: '华语组合'},
+    listTwo: [
+        {pathname: 'chineseMan', title: '华语男歌手'},
+        {pathname: 'chineseWomen', title: '华语女歌手'},
+        {pathname: 'chineseComb', title: '华语组合'},
     ],
-    'listThree': [
-        {pathname: '', title: '日韩男歌手'},
-        {pathname: '', title: '日韩女歌手'},
-        {pathname: '', title: '日韩组合'},
+    listThree: [
+        {pathname: 'japanMan', title: '日韩男歌手'},
+        {pathname: 'japanWomen', title: '日韩女歌手'},
+        {pathname: 'japanComb', title: '日韩组合'},
     ],
-    'listFour': [
-        {pathname: '', title: '欧美男歌手'},
-        {pathname: '', title: '欧美女歌手'},
-        {pathname: '', title: '欧美组合'}
+    listFour: [
+        {pathname: 'euMan', title: '欧美男歌手'},
+        {pathname: 'euWomen', title: '欧美女歌手'},
+        {pathname: 'euComb', title: '欧美组合'}
     ]
 };
 

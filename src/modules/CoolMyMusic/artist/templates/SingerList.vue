@@ -1,7 +1,7 @@
 <template>
     <ul class="singer-ul">
         <li v-for="list in singer">
-            <router-link :to="list.pathname">{{list.title}}</router-link>
+            <router-link :to="{path: `artist/${list.pathname}`}">{{list.title}}</router-link>
             <i class="fa fa-angle-right"></i>
         </li>
     </ul>

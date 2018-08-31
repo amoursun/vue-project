@@ -102,7 +102,7 @@
 </script>
 
 <style lang="less">
-  @import "~basis/style/variable.less";
+  @import "../../../node_modules/basis/style/variable.less";
 
   .recommend {
     position: fixed;

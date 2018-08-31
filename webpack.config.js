@@ -132,14 +132,16 @@ var config = {
         rules: [{
             test: /\.js$/,
             use: ['babel-loader'],
-            exclude: /node_modules/,
-            // exclude: resolve('node_modules/'),
-            include: join('/')
+            // exclude: /node_modules/,
+            // include: join('/'),
+            exclude: resolve('node_modules/'),
+            include: resolve('src')
         }, {
             test: /\.vue$/,
             use: ['vue-loader'],
             exclude: resolve('node_modules/'),
-            include: join('src')
+            // include: join('src')
+            include: resolve('src')
         }, {
             test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
             use: ['url-loader?limit=1024&name=files/[name].[hash:7].[ext]']

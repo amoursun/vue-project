@@ -28,7 +28,10 @@ const router = new VueRouter({
 let render = new Vue({
     router,
     el: '#app',
-    render: h => h(App)
+    render: h => h(App),
+    renderError: (h, err) => {
+        return h('pre', { style: { color: 'red' }}, err.stack)
+    }
 });
 
 // render;

@@ -48,7 +48,9 @@
 // ]
 
 import Init from 'common/components/commonContainer/Init.vue'
-const files = require.context('./', true, /^\.\/modules\/((?!\/)[\s\S])+\/route\.js$/);
+// const files = require.context('./', true, /^\.\/modules\/((?!\/)[\s\S])\/route\.js$/);
+// ((?!\/)[\s\S]) 仅仅匹配一层
+const files = require.context('./', true, /^\.\/modules\/(.*)\/route\.js$/);
 
 export default [{
     path: '/',
@@ -60,6 +62,7 @@ export default [{
         }
     },
     children: (r => {
+        console.log(r.keys())
         return r.keys().map(key => r(key).default);
     })(files)
 }];
