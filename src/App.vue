@@ -10,8 +10,8 @@
 </template>
 
 <script>
-    import Header from './common/Header.vue';
-    import Nav from './common/Nav.vue';
+    import Header from 'common/components/commonContainer/Header.vue';
+    import Nav from 'common/components/commonContainer/Nav.vue';
     export default {
         components: {
             "app-header": Header,
@@ -61,4 +61,7 @@
         margin: 0;
         padding: 0;
     }
+    /** {*/
+        /*touch-action: none;*/
+    /*}*/
 </style>

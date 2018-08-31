@@ -3,11 +3,19 @@ import App from './App.vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 import routes from './routes'; // Array
+import VueLazyload from 'vue-lazyload'
+
+var attachFastClick = require('fastclick');
+attachFastClick.attach(document.body);
 
 Vue.use(VueResource); //http请求注册
 Vue.use(VueRouter); //路由注册
 
-console.log(routes)
+Vue.use(VueLazyload, {
+    loading: require('basis/image/default.png')
+});
+
+console.log(routes);
 
 // 实例化路由
 const router = new VueRouter({

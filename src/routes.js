@@ -47,7 +47,7 @@
 //     }
 // ]
 
-import Init from './common/Init.vue'
+import Init from 'common/components/commonContainer/Init.vue'
 const files = require.context('./', true, /^\.\/modules\/((?!\/)[\s\S])+\/route\.js$/);
 
 export default [{
@@ -64,7 +64,7 @@ export default [{
     })(files)
 }];
 
-// import initRoute from './utils/InitRoute'
+// import initRoute from './InitRoute/InitRoute'
 // const files = require.context('./', true, /^\.\/modules\/((?!\/)[\s\S])+\/route\.js$/);
 //
 // const routes = initRoute.concat((r => {

@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const fs = require('fs');
 
@@ -14,8 +15,12 @@ const isPro = nodeEnv === 'production';
 
 console.log('当前运行环境：', isPro ? 'production' : 'development');
 
-var resolve = function (dir) {
+var join = function (dir) {
     return path.join(__dirname, dir);
+};
+
+var resolve = function (dir) {
+    return path.resolve(__dirname, dir);
 };
 
 var plugins = [
@@ -28,7 +33,7 @@ var plugins = [
 if (isPro) {
     plugins.push(
         new webpack.DefinePlugin({
-            'process.env':{
+            'process.env': {
                 'NODE_ENV': JSON.stringify(nodeEnv)
             }
         }),
@@ -41,11 +46,35 @@ if (isPro) {
 } else {
     plugins.push(
         new webpack.DefinePlugin({
-            'process.env':{
+            'process.env': {
                 'NODE_ENV': JSON.stringify(nodeEnv)
             }
         }),
-        new webpack.HotModuleReplacementPlugin()
+        // webpack 内置的 HMR 插件
+        new webpack.HotModuleReplacementPlugin(),
+
+        //每次打包前会将dist文件夹中的文件清除，防止加载不必要的文件
+        new CleanWebpackPlugin(['dist']),
+
+        /*
+          自动生成html,及文件的引用
+          html-webpack-plugin用来打包入口html文件
+          entry配置的入口是js文件, webpack以js文件为入口, 遇到import, 用配置的loader加载引入文件
+          但作为浏览器打开的入口html, 是引用入口js的文件, 它在整个编译过程的外面,
+          所以, 我们需要html-webpack-plugin来打包作为入口的html文件
+        */
+        // new HtmlWebpackPlugin({
+        //     title: 'vue-good'
+        // }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'manifest'
+        }),
+        //HashedModuleIdsPlugin，推荐用于生产环境构建：使用这个可以实现缓存，那些没有改变的文件就不会
+        //随着每次构建而改变了，节约资源
+        new webpack.HashedModuleIdsPlugin()
     )
 }
 
@@ -56,42 +85,61 @@ var config = {
     //     "babel-polyfill",
     //     path.resolve(__dirname, 'src/main')
     // ],
+    // entry: {
+    //     app: ['babel-polyfill', './src/main.js']
+    // },
     entry: {
-        app: ['babel-polyfill', './src/main.js']
+        // main: './src/main.js',
+        app: ['babel-polyfill', './src/main.js'],
+        vendor: [
+            'lodash', 'vue', 'vuex', 'vue-router'
+        ]
     },
     output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].[hash].bundle.js',
+        path: resolve('dist'),
         publicPath: isPro ? './' : '/',
         chunkFilename: '[name].[hash].js'
     },
     plugins: plugins,
     node: {
-        fs: 'empty'
+        setImmediate: false,
+        dgram: 'empty',
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty',
+        child_process: 'empty'
     },
     resolve: {
-        extensions: ['.js', '.vue', '.less', '.css'],
         modules: [
-            path.resolve(__dirname, 'node_modules'),
-            path.join(__dirname, './src')
+            resolve('node_modules'),
+            join('./src')
         ],
-        alias: {
-            'static': path.join(__dirname, 'static'),
-            'components': path.join(__dirname, 'src/components'),
-            'modules': path.join(__dirname, 'src/modules')
-        }
+        alias: { // 来确保模块引入变得更简单
+            // static: join(__dirname, 'static'),
+            // modules: join(__dirname, 'src/modules/'),
+            static: resolve('static/'),
+            modules: resolve('src/modules/'),
+            store: resolve('src/store/'),
+            common: resolve('src/node_modules/common/'),
+            utils: resolve('src/node_modules/utils/'),
+            api: resolve('src/node_modules/api/'),
+            basis: resolve('src/node_modules/basis/')
+        },
+        extensions: ['.js', '.vue', '.less', '.css']
     },
     module: {
         rules: [{
             test: /\.js$/,
             use: ['babel-loader'],
             exclude: /node_modules/,
-            include: resolve('/')
-        },{
+            // exclude: resolve('node_modules/'),
+            include: join('/')
+        }, {
             test: /\.vue$/,
             use: ['vue-loader'],
-            exclude: /node_modules/,
-            include: resolve('src')
+            exclude: resolve('node_modules/'),
+            include: join('src')
         }, {
             test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
             use: ['url-loader?limit=1024&name=files/[name].[hash:7].[ext]']
@@ -109,7 +157,7 @@ var config = {
         poll: 1000  //每秒询问的文件变更的次数
     },
     devServer: {
-        contentBase: resolve('/'),
+        contentBase: join('/'),
         historyApiFallback: true,
         compress: true,
         port: 6699,
