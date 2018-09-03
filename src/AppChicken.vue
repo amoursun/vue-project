@@ -9,19 +9,19 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-  import MHeader from 'components/m-header/m-header'
-  import Player from 'components/player/player'
-  import Tab from 'components/tab/tab'
+<script>
+  import MHeader from 'common/components/m-header/m-header'
+  import Player from 'common/components/player/player'
+  import Tab from 'common/components/tab/tab'
 
   export default {
     components: {
-      MHeader,
-      Tab,
-      Player
+      'm-header': MHeader,
+      'tab': Tab,
+      'player': Player
     }
   }
 </script>
 
-<style scoped lang="stylus" rel="stylesheet/stylus">
+<style lang="less">
 </style>

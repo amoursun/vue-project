@@ -1,9 +1,11 @@
 import Vue from 'vue';
-import App from './App.vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 import routes from './routes'; // Array
+import store from './store'
 import VueLazyload from 'vue-lazyload'
+import App from './App.vue';
+import AppChicken from './AppChicken.vue';
 
 var attachFastClick = require('fastclick');
 attachFastClick.attach(document.body);
@@ -25,10 +27,20 @@ const router = new VueRouter({
     routes
 });
 
+let routeName = 'recommend'
+
 let render = new Vue({
     router,
+    store,
     el: '#app',
-    render: h => h(App),
+    render: h => {
+        if (routeName === 'recommend') {
+            return h(AppChicken)
+        }
+        else {
+            return h(App)
+        }
+    },
     renderError: (h, err) => {
         return h('pre', { style: { color: 'red' }}, err.stack)
     }

@@ -30,7 +30,7 @@
   </transition>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   import Switches from 'common/base/switches/switches'
   import Scroll from 'common/base/scroll/scroll'
   import SongList from 'common/base/song-list/song-list'
