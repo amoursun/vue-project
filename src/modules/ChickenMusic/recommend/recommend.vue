@@ -40,7 +40,7 @@
   import Scroll from 'common/base/scroll/scroll'
   import {getRecommend, getDiscList} from 'api/recommend'
   import {playlistMixin} from 'basis/js/mixin'
-  import {ERR_OK} from 'api/config'
+  import {CODE_OK, CODE_0} from 'api/config'
   import {mapMutations} from 'vuex'
 
   export default {
@@ -77,14 +77,14 @@
       },
       _getRecommend() {
         getRecommend().then((res) => {
-          if (res.code === ERR_OK) {
+          if (res.code === CODE_0 || res.code === CODE_OK) {
             this.recommends = res.data.slider
           }
         })
       },
       _getDiscList() {
-        getDiscList().then((res) => {
-          if (res.code === ERR_OK) {
+        getDiscList().then(res => {
+          if (res.code === CODE_OK) {
             this.discList = res.data.list
           }
         })

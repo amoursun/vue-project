@@ -24,4 +24,5 @@
 </script>
 
 <style lang="less">
+  @import "~basis/style/index.less";
 </style>

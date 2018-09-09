@@ -26,7 +26,7 @@
   import Scroll from 'common/base/scroll/scroll'
   import Loading from 'common/base/loading/loading'
   import {getTopList} from 'api/rank'
-  import {ERR_OK} from 'api/config'
+  import {CODE_OK, CODE_0} from 'api/config'
   import {playlistMixin} from 'basis/js/mixin'
   import {mapMutations} from 'vuex'
 
@@ -55,7 +55,7 @@
       },
       _getTopList() {
         getTopList().then((res) => {
-          if (res.code === ERR_OK) {
+          if (res.code === CODE_OK || res.code === CODE_0) {
             this.topList = res.data.topList
           }
         })

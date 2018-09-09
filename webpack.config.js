@@ -4,6 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
+// const express = require('express')
+// const proxyMiddleware = require('http-proxy-middleware');
+// const axios = require('axios');
+
 const fs = require('fs');
 
 const babelrc = JSON.parse(fs.readFileSync('./.babelrc'));
@@ -15,15 +19,15 @@ const isPro = nodeEnv === 'production';
 
 console.log('当前运行环境：', isPro ? 'production' : 'development');
 
-var join = function (dir) {
+const join = function (dir) {
     return path.join(__dirname, dir);
 };
 
-var resolve = function (dir) {
+const resolve = function (dir) {
     return path.resolve(__dirname, dir);
 };
 
-var plugins = [
+const plugins = [
     new ExtractTextPlugin('style.css'),
     new HtmlWebpackPlugin({
         filename: 'index.html',
@@ -43,7 +47,8 @@ if (isPro) {
             }
         })
     )
-} else {
+}
+else {
     plugins.push(
         new webpack.DefinePlugin({
             'process.env': {
@@ -78,7 +83,7 @@ if (isPro) {
     )
 }
 
-var config = {
+const config = {
     devtool: !isPro && 'cheap-eval-source-map',
     //页面入口文件配置
     // entry: [
@@ -146,13 +151,37 @@ var config = {
             test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
             use: ['url-loader?limit=1024&name=files/[name].[hash:7].[ext]']
         }, {
-            test: /\.(less|css)$/,
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+        }, {
+            test: /\.(less)$/,
+            exclude: /node_modules/,
             use: ExtractTextPlugin.extract({
-                use: ['css-loader', 'less-loader'],
-                fallback: 'style-loader'
+                fallback: "style-loader",
+                use: [
+                    {loader: "css-loader"},
+                    {loader: "less-loader"},
+                ],
             })
+        }, {
+            test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+            loader: 'file-loader'
         }]
     },
+// {
+//     test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
+//         loader: 'file-loader',
+//         query: {
+//               name: '[name].[ext]?[hash]'
+//         }
+//      }
+// {
+//     test: /\.(less|css)$/,
+//     use: ExtractTextPlugin.extract({
+//         use: ['css-loader', 'less-loader'],
+//         fallback: 'style-loader'
+//     })
+// }
     watchOptions: {
         ignored: /node_modules/,
         aggregateTimeout: 300,//防止重复保存频繁重新编译,300ms内重复保存不打包
@@ -177,7 +206,70 @@ var config = {
                 green: '\u001b[32m'
             }
         },
+        proxy: {
+            '/api/': {
+                target: 'http://localhost:6699',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': '/getDiscList'
+                }
+            }
+        }
     }
 };
+
+
+// const proxyTable = config.devServer.proxy;
+// const app = express();
+// const apiRoutes = express.Router();
+
+// apiRoutes.get('/getDiscList', function (req, res) {
+//     var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+//     axios.get(url, {
+//         headers: {
+//             referer: 'https://c.y.qq.com/',
+//             host: 'c.y.qq.com'
+//         },
+//         params: req.query
+//     }).then((response) => {
+//         res.json(response.data)
+//     }).catch((e) => {
+//         console.log(e)
+//     })
+// })
+// apiRoutes.get('/lyric', function (req, res) {
+//     var url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
+//
+//     axios.get(url, {
+//         headers: {
+//             referer: 'https://c.y.qq.com/',
+//             host: 'c.y.qq.com'
+//         },
+//         params: req.query
+//     }).then((response) => {
+//         var ret = response.data
+//         if (typeof ret === 'string') {
+//             var reg = /^\w+\(({[^()]+})\)$/
+//             var matches = ret.match(reg)
+//             if (matches) {
+//                 ret = JSON.parse(matches[1])
+//             }
+//         }
+//         res.json(ret)
+//     }).catch((e) => {
+//         console.log(e)
+//     })
+// })
+//
+// app.use('/api', apiRoutes)
+//
+// Object.keys(proxyTable).forEach(function (context) {
+//     var options = proxyTable[context]
+//     if (typeof options === 'string') {
+//         options = { target: options }
+//     }
+//     app.use(proxyMiddleware(options.filter || context, options))
+// });
+
 
 module.exports = config;

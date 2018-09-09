@@ -12,7 +12,16 @@
 <script>
     import Header from 'common/components/commonContainer/Header.vue';
     import Nav from 'common/components/commonContainer/Nav.vue';
+    import BScroll from 'better-scroll';
     export default {
+        created() {
+            this.initScroll();
+        },
+        initScroll() {
+            this.scroll = new BScroll(this.$refs.wrapper, {
+                preventDefault: false,  //暂时解决chrome中无法被动监听preventdefault
+            });
+        },
         components: {
             "app-header": Header,
             "app-nav": Nav

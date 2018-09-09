@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
@@ -27,7 +28,8 @@ const router = new VueRouter({
     routes
 });
 
-let routeName = 'recommend'
+// let routeName = 'recommend'
+let routeName = 'home';
 
 let render = new Vue({
     router,
